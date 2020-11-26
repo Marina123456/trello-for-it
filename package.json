@@ -7,6 +7,9 @@
   "homepage": "https://krev.fun/trello/",
   "dependencies": {
     "@lourenci/react-kanban": "2.0.0",
+    "@material-ui/core": "^4.11.1",
+    "@material-ui/icons": "^4.9.1",
+    "moment": "^2.29.1",
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-redux": "^7.2.2",

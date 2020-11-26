@@ -1,9 +1,10 @@
 export default {
     card:{
         board: {
-          columns:[]        
+          columns:[]
       }
+    },
+    project:{
+      project_list: []
     }
-
-
 };

@@ -3,89 +3,35 @@ import { fetchBoard } from './store/card/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Board, { moveCard } from "@lourenci/react-kanban";
 import "@lourenci/react-kanban/dist/styles.css";
+import MyCard from './MyCard';
 
-const board2 = {
-  columns: [
-    {
-      id: 1,
-      title: "Надо выполнить",
-      cards: [
-        {
-          id: 1,
-          title: "Cоздать управление",
-          description: "Добавить к рукоядке рычага компонент Throwable для возможности брать"
-        },
-        {
-          id: 2,
-          title: "Маршрут корабля",
-          description: "С помощью буйков создать маршрут корабля"
-        }
-      ]
-    },
-    {
-      id: 2,
-      title: "В работе",
-      cards: [
-        {
-          id: 9,
-          title: "Создание моря и корабля в нём",
-          description: "Видео-подсказка: https://youtu.be/ei9vIirY08A"
-        }
-      ]
-    },
-    {
-      id: 3,
-      title: "Выполнено",
-      cards: [
-        {
-          id: 10,
-          title: "Гудок",
-          description: "Создать гудок для подачи звукового сигнала"
-        },
-        {
-          id: 11,
-          title: "Создать 3D-модели",
-          description: "Создать 3D-модели кораблей, причала, города влади, буйки. Исполнитель - Максим и Паша"
-        }
-      ]
-    },
-    {
-      id: 4,
-      title: "Отклонено",
-      cards: [
-        {
-          id: 12,
-          title: "Добавить terrain",
-          description: "Добавить ландшафта"
-        }
-      ]
-    }
-  ]
-};
-
-function onLaneRemoveClick(){
-  console.log('lane remove');
+function onCardRemoveClick(board, fromColumn, card){
+  console.log(fromColumn);
 }
-function onCardRemoveClick(){
-  console.log('card remove');
+function onCardAddClick(board,inColumn,card){
+  console.log(JSON.stringify({project_id:5, inColumn_id:inColumn.id, card: card}));
 }
-function onLaneRenameClick(){
-  console.log('lane remove');
+function onCardMoveDrag(board, card, source, destination) {// board, card, source, destination
+  console.log(card);
 }
-function onNewCardClick(newCard){
-  console.log(newCard);
-
-}
-function Trello() {
+function Trello(props) {
   const board = useSelector(state=>state.card.board);
-
+  const id=props.match.params.id;
+  //console.log(id);
   const dispatch = useDispatch();
 
  useEffect(() => {
-    dispatch(fetchBoard());
+    dispatch(fetchBoard(id));
 
   }, []);
-console.log(board);
+  /*renderCard={({ content }, { removeCard, dragging }) => (
+              <MyCard dragging={dragging}>
+                  {content}
+                  <button type="button" onClick={removeCard}>Remove Card</button>
+              </MyCard>
+)}
+*/
+  console.log(board);
   return (
     <div>
     {
@@ -94,19 +40,17 @@ console.log(board);
     <Board
 
       allowRemoveLane
-      allowRenameColumn
       allowRemoveCard
-      onLaneRemove={onLaneRemoveClick}
       onCardRemove={onCardRemoveClick}
-      onLaneRename={console.log}
       initialBoard={board}
       allowAddCard={{ on: "top" }}
+
       onNewCardConfirm={draftCard => ({
         id: new Date().getTime(),
         ...draftCard
       })}
-
-      onCardNew={onNewCardClick}
+      onCardDragEnd = {onCardMoveDrag}
+      onCardNew={onCardAddClick}
 
     />
     : null }
