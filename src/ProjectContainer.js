@@ -56,7 +56,7 @@ export default function ProjectContainer() {
                  id = {value.id}
                  title = {value.title}
                  startDate = {newStartDate.format('l')}
-                 endDate = {newEndDate.format('l')}
+                 endDate = {newEndDate.format('ll')}
               />
             </Grid>
           )}

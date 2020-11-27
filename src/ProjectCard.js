@@ -58,9 +58,11 @@ export default function ProjectCard(props) {
         disabled
         color="secondary"
         className={classes.button}
-        startIcon={<AccessTimeIcon fontSize="small" />}
+        component="span"
+        startIcon={<AccessTimeIcon fontSize="small" />
+      }
       >
-        {props.startDate} - {props.endDate}
+        до {props.endDate}
       </Button>
        <Typography variant="h6" component="h6" className={classes.pos}>
          {props.title}

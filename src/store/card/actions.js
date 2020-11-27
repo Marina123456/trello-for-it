@@ -13,11 +13,11 @@ export function fetchBoard(id) {
   }
 }
 
-export function  addPost(post) {
+export function  addCard(newCard) {
   return async function addBoardThunk (dispatch, getState) {
 
          dispatch({ type: types.START_SAVE });
-         const route = `${host}/api/posts`;
+         const route = `${host}`;
          let response = await fetch(route,
            {
             method: 'POST',
@@ -25,14 +25,14 @@ export function  addPost(post) {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(post)
+            body: JSON.stringify(newCard)
           });
           response = await response.json();
-          console.log(JSON.stringify(post));
+          console.log(JSON.stringify(response));
          if (response.status=="OK") {
             dispatch({ type: types.FINISH_SAVE });
           } else {
-             dispatch({ type: types.FAIL_ADD });
+             dispatch({ type: types.FAIL_SAVE });
           }
 
      }

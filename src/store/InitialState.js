@@ -5,6 +5,8 @@ export default {
       }
     },
     project:{
-      project_list: []
+      project_list: [],
+      cardSaved: false,
+      cardSavedFail: false
     }
 };

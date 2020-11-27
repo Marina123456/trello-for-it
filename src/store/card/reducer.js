@@ -10,6 +10,18 @@ export default function reduce(state = {}, action = {}) {
                     });
          }
         return state;
+      case types.START_SAVE:
+        return Object.assign({}, state, {
+                        cardSaved:false
+                      });
+      case types.FINISH_SAVE:
+        return Object.assign({}, state, {
+                        cardSaved:true
+                      });
+     case types.FAIL_SAVE:
+          return Object.assign({}, state, {
+                  cardSavedFail:true
+               });
       default:
         return state;
 }
