@@ -31,18 +31,16 @@ const useStyles = makeStyles({
 
 export default function MyCardAdd(props) {
   const classes = useStyles();
-  const [titleCard, setTitleCard] = useState('заголовок');
-  const [descriptionCard, setDescriptionCard] = useState('описание');
-  const addNewCard = () => {
-    props.addCardFunc(props.inColumn, { id: new Date().getTime(), title: titleCard, description: descriptionCard});
-    props.setShowCardAddFunc(false);
+  const [titleCard, setTitleCard] = useState(props.card.title);
+  const [descriptionCard, setDescriptionCard] = useState(props.card.description);
+  const editCard = () => {
+    props.editingFunc({id:props.card.id,title:titleCard,description:descriptionCard});
+    props.setShowCardEditFunc(false);
   };
 
   return (
     <Card className={classes.root}>
       <CardContent>
-
-
       <TextField
       className={classes.pos}
       label="Название"
@@ -69,11 +67,11 @@ export default function MyCardAdd(props) {
 
 
         <Button variant="contained" color="primary" size="small"
-              onClick={addNewCard}>
-          Добавить
+              onClick={editCard}>
+          Изменить
         </Button>
-        <IconButton aria-label="удалить" >
-          <CloseIcon fontSize='small' onClick={() => props.setShowCardAddFunc(false)}/>
+        <IconButton aria-label="скрыть" >
+          <CloseIcon fontSize='small' onClick={() => props.setShowCardEditFunc(false)}/>
         </IconButton>
       </CardActions>
 

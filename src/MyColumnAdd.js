@@ -13,29 +13,27 @@ import CloseIcon from '@material-ui/icons/Close';
 const useStyles = makeStyles({
   root: {
     width: 250,
-    marginBottom: 12,
+
+    height: 150,
+    marginTop: 10
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
+
   title: {
     fontSize: 14,
   },
   pos: {
-    marginBottom: 10,
+
   },
 
 });
 
-export default function MyCardAdd(props) {
+export default function MyColumnAdd(props) {
   const classes = useStyles();
-  const [titleCard, setTitleCard] = useState('заголовок');
-  const [descriptionCard, setDescriptionCard] = useState('описание');
-  const addNewCard = () => {
-    props.addCardFunc(props.inColumn, { id: new Date().getTime(), title: titleCard, description: descriptionCard});
-    props.setShowCardAddFunc(false);
+  const [titleColumn, setTitleColumn] = useState('заголовок');
+
+  const addNewColumn = () => {
+    props.onColumnAddFunc({ id: new Date().getTime(), title: titleColumn, cards: []});
+    props.setShowColumnAddFunc(false);
   };
 
   return (
@@ -45,35 +43,24 @@ export default function MyCardAdd(props) {
 
       <TextField
       className={classes.pos}
-      label="Название"
+      label="Название колонки"
       id="filled-size-normal"
       defaultValue=""
       size="small"
-      value={titleCard}
-      onChange={(event) => setTitleCard(event.target.value)}
+      value={titleColumn}
+      onChange={(event) => setTitleColumn(event.target.value)}
        />
-      <br />
-      <TextField
-      label="Описание"
-      id="filled-size-normal"
-      defaultValue=""
-      size="small"
-      multiline
-      rows={2}
-      onChange={(event) => setDescriptionCard(event.target.value)}
-      value={descriptionCard}
-      />
 
       </CardContent>
       <CardActions disableSpacing>
 
 
         <Button variant="contained" color="primary" size="small"
-              onClick={addNewCard}>
+              onClick={addNewColumn}>
           Добавить
         </Button>
         <IconButton aria-label="удалить" >
-          <CloseIcon fontSize='small' onClick={() => props.setShowCardAddFunc(false)}/>
+          <CloseIcon fontSize='small' onClick={() => props.setShowColumnAddFunc(false)}/>
         </IconButton>
       </CardActions>
 

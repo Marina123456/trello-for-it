@@ -15,9 +15,16 @@ export default function reduce(state = {}, action = {}) {
                         cardSaved:false
                       });
       case types.FINISH_SAVE:
-        return Object.assign({}, state, {
-                        cardSaved:true
-                      });
+           if (action.updatedBoard) {
+             console.log('test');
+             console.log(action.updatedBoard);
+              return Object.assign({}, state, {
+                    board: action.updatedBoard
+                });
+
+          }
+          console.log('test');
+    return state;
      case types.FAIL_SAVE:
           return Object.assign({}, state, {
                   cardSavedFail:true
