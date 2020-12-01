@@ -1,5 +1,4 @@
 export let types =
 {
-  FETCH: 'projects.FETCH',
-  
+  FETCH: 'projects.FETCH',  
 }

@@ -1,5 +1,4 @@
 import {types} from './actionTypes';
-//import "isomorphic-fetch";
 
 const host ='https://krev.fun/ml_am/tr_pr.php';
 
@@ -8,15 +7,16 @@ export function fetchBoard(id) {
       const route  = `${host}?id_prj=${id}`;
       let response = await fetch(route);
           response = await response.json();
-          //console.log(response);
+
       return dispatch({ type: types.FETCH, cards: response });
+
   }
 }
 
 export function  saveCard(newCard,updatedBoard) {
   return async function addBoardThunk (dispatch, getState) {
          dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
-         //dispatch({ type: types.START_SAVE });
+
          const route = `${host}`;
          let response = await fetch(route,
            {
@@ -28,7 +28,6 @@ export function  saveCard(newCard,updatedBoard) {
             body: JSON.stringify(newCard)
           });
           response = await response.json();
-          console.log(JSON.stringify(response));
          /*if (response.status=="OK") {
             dispatch({ type: types.FINISH_SAVE });
           } else {
@@ -41,8 +40,8 @@ export function  saveCard(newCard,updatedBoard) {
 
 export function  moveCardDB(newStateCard,updatedBoard) {
   return async function moveBoardThunk (dispatch, getState) {
-    dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
-        //dispatch({ type: types.START_SAVE });
+         dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         //dispatch({ type: types.START_SAVE });
          const route = `${host}`;
          let response = await fetch(route,
            {
@@ -54,20 +53,16 @@ export function  moveCardDB(newStateCard,updatedBoard) {
             body: JSON.stringify(newStateCard)
           });
           response = await response.json();
-          console.log(JSON.stringify(response));
-
          /*if (response.status=="OK") {
             dispatch({ type: types.FINISH_SAVE }, updatedBoard);
           } else {
              dispatch({ type: types.FAIL_SAVE },updatedBoard);
           }*/
-
-
      }
 }
 export function  deleteCard(deletedCard,updatedBoard) {
   return async function deleteBoardThunk (dispatch, getState) {
-        dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
          //dispatch({ type: types.START_SAVE });
          const route = `${host}`;
          let response = await fetch(route,
@@ -86,22 +81,21 @@ export function  deleteCard(deletedCard,updatedBoard) {
           } else {
              dispatch({ type: types.FAIL_SAVE });
           }*/
-
      }
 }
 
 export function  editForRender(editingCard,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
-   dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+          dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
  }
 }
 export function  editCardDB(editingCard,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
-         dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
-        // dispatch({ type: types.START_SAVE });
-         /*const route = `${host}`;
-         let response = await fetch(route,
-           {
+          dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+          // dispatch({ type: types.START_SAVE });
+          /*const route = `${host}`;
+          let response = await fetch(route,
+            {
             method: 'DELETE',
             headers: {
               'Accept': 'application/json',
@@ -119,20 +113,22 @@ export function  editCardDB(editingCard,updatedBoard) {
 
      }
 }
-
 export function saveColumn(newColumn,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
    dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
  }
 }
-
 export function deleteColumn(newColumn,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
    dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
  }
 }
-
 export function renameColumnDB(newColumn,updatedBoard) {
+  return async function editBoardThunk (dispatch, getState) {
+   dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+ }
+}
+export function moveColumnDB(movedColumnInfo,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
    dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
  }

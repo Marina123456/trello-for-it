@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { fetchBoard, saveCard, deleteCard, moveCardDB, editCardDB, editForRender, saveColumn, deleteColumn, renameColumnDB} from './store/card/actions';
+import { fetchBoard, saveCard,
+         deleteCard, moveCardDB,
+         editCardDB, editForRender,
+         saveColumn, deleteColumn,
+         renameColumnDB, moveColumnDB} from './store/card/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import Board, { moveCard, renderColumnHeader, removeColumn, removeCard, addCard, addColumn, changeColumn } from "@lourenci/react-kanban";
+import Board, { moveCard,
+               removeColumn,  removeCard,
+               addCard,  addColumn,
+               changeColumn, moveColumn } from "@lourenci/react-kanban";
 import "@lourenci/react-kanban/dist/styles.css";
 import MyCard from './MyCard';
 import MyColumn from './MyColumn';
@@ -27,45 +34,40 @@ const useStyles = makeStyles({
 function Trello(props) {
   const board = useSelector(state=>state.card.board);
   const [isShowColumnAdd, setShowColumnAdd] = useState(false);
-  //setShowColumnAddFunc
-  const id=props.match.params.id;
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  const id=props.match.params.id;
 
   const onCardMoveDrag = (card, source, destination) => {
      const updatedBoard = moveCard(board, source, destination);
 
-       dispatch(moveCardDB({
-           project_id:id,
+     dispatch(moveCardDB({
+           board: id,
            source:source,
            destination:destination,
            card: card
          }, updatedBoard));
-      console.log(JSON.stringify({
-        project_id:id,
-        source:source,
-        destination:destination,
-        card: card
-      }));
-     };
+  };
 
   const onCardAddClick = ( inColumn,card) => {
-    const updatedBoard = addCard(board, inColumn, card);
-    dispatch(saveCard({
-      project_id:id,
-      inColumn_id:inColumn.id,
-      card:card
-    },updatedBoard));
+     const updatedBoard = addCard(board, inColumn, card);
+
+     dispatch(saveCard({
+            board: id,
+            inColumn_id:inColumn.id,
+            card:card
+          },updatedBoard));
   };
 
   const onCardRemoveClick = (fromColumn, card) => {
     const updatedBoard = removeCard(board, fromColumn, card);
 
     dispatch(deleteCard({
-      project_id:id,
-      fromColumn_id:fromColumn.id,
-      card: card},
-      updatedBoard));
+           board: id,
+           fromColumn_id:fromColumn.id,
+           card: card
+         },updatedBoard));
   };
 
   const onCardEditClick = (card) => {
@@ -74,66 +76,58 @@ function Trello(props) {
     const forRender = removeCard(board, fromColumn, card);
 
     dispatch(editForRender({
-      project_id:id,
-      fromColumnId:fromColumn.id,
-      card: card},
-      forRender));
+           board: id,
+           fromColumnId:fromColumn.id,
+           card: card
+         }, forRender));
     dispatch(editCardDB({
-        project_id:id,
-        fromColumnId:fromColumn.id,
-        card: card},
-        updatedBoard));
-
-        console.log(JSON.stringify({
-            project_id:id,
-            fromColumnId:fromColumn.id,
-            card: card}));
-
+           board: id,
+           fromColumnId:fromColumn.id,
+           card: card
+         }, updatedBoard));
   };
 
   const onColumnAddClick = (newColumn) => {
     const updatedBoard = addColumn(board, newColumn);
 
     dispatch(saveColumn({
-      project_id:id,
-      newColumn:newColumn
-      },
-      updatedBoard));
-      console.log(JSON.stringify({
-        project_id:id,
-        newColumn:newColumn
-      }));
+           board: id,
+           newColumn:newColumn
+          }, updatedBoard));
   };
 
   const onColumnRemoveClick = (deletedColumn) => {
     const updatedBoard = removeColumn(board, deletedColumn);
 
     dispatch(deleteColumn({
-      project_id:id,
-      deletedColumn: deletedColumn
-      },
-      updatedBoard));
-      console.log(JSON.stringify({
-        project_id:id,
-        deletedColumn: deletedColumn
-      }));
+           board: id,
+           deletedColumn: deletedColumn
+          }, updatedBoard));
   };
 
-const onColumnRenameClick = (renamedColumn) => {
-  const updatedBoard = changeColumn(board, renamedColumn,{'title':renamedColumn.title});
-  dispatch(renameColumnDB({
-    project_id:id,
-    renamedColumn: renamedColumn
-    },
-    updatedBoard));
-    console.log(JSON.stringify({
-      project_id:id,
-      renamedColumn: renamedColumn
-    }));
-};
+  const onColumnRenameClick = (renamedColumn) => {
+     const updatedBoard = changeColumn(board, renamedColumn,{'title':renamedColumn.title});
 
- useEffect(() => {
-    dispatch(fetchBoard(id));
+     dispatch(renameColumnDB({
+            board: id,
+            renamedColumn: renamedColumn
+           }, updatedBoard));
+  };
+
+  const onColumnDragEndClick = ( column, source, destination) => {
+     const updatedBoard = moveColumn(board, source, destination);
+
+     dispatch(moveColumnDB({
+            board: id,
+            columnId: column.id,
+            source: source,
+            destination: destination
+          }, updatedBoard));
+
+  }
+
+  useEffect(() => {
+     dispatch(fetchBoard(id));
   }, []);
 
   return (
@@ -168,6 +162,7 @@ const onColumnRenameClick = (renamedColumn) => {
                                    onColumnRenameFunc={onColumnRenameClick}
                                    />
                                    )}
+              onColumnDragEnd={onColumnDragEndClick}
 
                >
                {board}
@@ -180,7 +175,7 @@ const onColumnRenameClick = (renamedColumn) => {
             className={classes.addColumnButton}
             onClick={()=>setShowColumnAdd(true)}
             startIcon={<AddIcon />} >
-            Добавить колонку
+               Добавить колонку
             </Button>) :
            (<MyColumnAdd setShowColumnAddFunc={setShowColumnAdd} onColumnAddFunc={onColumnAddClick}/>)
          }
