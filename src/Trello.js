@@ -43,7 +43,7 @@ function Trello(props) {
      const updatedBoard = moveCard(board, source, destination);
 
      dispatch(moveCardDB({
-           board: id,
+           project_id: id,
            source:source,
            destination:destination,
            card: card
@@ -54,7 +54,7 @@ function Trello(props) {
      const updatedBoard = addCard(board, inColumn, card);
 
      dispatch(saveCard({
-            board: id,
+            project_id: id,
             inColumn_id:inColumn.id,
             card:card
           },updatedBoard));
@@ -64,7 +64,7 @@ function Trello(props) {
     const updatedBoard = removeCard(board, fromColumn, card);
 
     dispatch(deleteCard({
-           board: id,
+           project_id: id,
            fromColumn_id:fromColumn.id,
            card: card
          },updatedBoard));
@@ -76,12 +76,12 @@ function Trello(props) {
     const forRender = removeCard(board, fromColumn, card);
 
     dispatch(editForRender({
-           board: id,
+           project_id: id,
            fromColumnId:fromColumn.id,
            card: card
          }, forRender));
     dispatch(editCardDB({
-           board: id,
+           project_id: id,
            fromColumnId:fromColumn.id,
            card: card
          }, updatedBoard));
@@ -91,7 +91,7 @@ function Trello(props) {
     const updatedBoard = addColumn(board, newColumn);
 
     dispatch(saveColumn({
-           board: id,
+           project_id: id,
            newColumn:newColumn
           }, updatedBoard));
   };
@@ -100,7 +100,7 @@ function Trello(props) {
     const updatedBoard = removeColumn(board, deletedColumn);
 
     dispatch(deleteColumn({
-           board: id,
+           project_id: id,
            deletedColumn: deletedColumn
           }, updatedBoard));
   };
@@ -109,7 +109,7 @@ function Trello(props) {
      const updatedBoard = changeColumn(board, renamedColumn,{'title':renamedColumn.title});
 
      dispatch(renameColumnDB({
-            board: id,
+            project_id: id,
             renamedColumn: renamedColumn
            }, updatedBoard));
   };
@@ -118,7 +118,7 @@ function Trello(props) {
      const updatedBoard = moveColumn(board, source, destination);
 
      dispatch(moveColumnDB({
-            board: id,
+            project_id: id,
             columnId: column.id,
             source: source,
             destination: destination
