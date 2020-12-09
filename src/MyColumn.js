@@ -33,8 +33,8 @@ export default function MyColumn(props) {
     props.onColumnRemoveFunc(props.column);
   }
   const onKeyDown = e =>{
-    if (e.keyCode === '13'){
-        props.onColumnRenameFunc({id: props.column.id, title: titleColumn, cards: props.column.cards})
+    if (e.keyCode == '13'){
+        props.onColumnRenameFunc({id: props.column.id, title: titleColumn, cards: props.column.cards});
         setShowEditTitle(false)
       }
   }
@@ -51,7 +51,6 @@ export default function MyColumn(props) {
         :(<TextField
             label="Название колонки"
             id="filled-size-normal"
-            defaultValue=""
             size="small"
             autoFocus={true}
             onBlur={()=>setShowEditTitle(false)}

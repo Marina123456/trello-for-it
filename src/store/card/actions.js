@@ -1,10 +1,10 @@
 import {types} from './actionTypes';
 
-const host ='https://krev.fun/ml_am/tr_pr.php';
+const host ='https://krev.fun/ml_am';
 
 export function fetchBoard(id) {
    return async function fetchBoardThunk (dispatch, getState) {
-      const route  = `${host}?id_prj=${id}`;
+      const route  = `${host}/board/${id}`;
       let response = await fetch(route);
           response = await response.json();
 
@@ -17,7 +17,7 @@ export function  saveCard(newCard,updatedBoard) {
   return async function addBoardThunk (dispatch, getState) {
          dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
 
-         const route = `${host}`;
+         const route = `${host}/board/${newCard.board_id}/column/${newCard.inColumn_id}/card`;
          let response = await fetch(route,
            {
             method: 'POST',
@@ -25,7 +25,7 @@ export function  saveCard(newCard,updatedBoard) {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newCard)
+            body: JSON.stringify(newCard.card)
           });
           response = await response.json();
          /*if (response.status=="OK") {
@@ -42,7 +42,7 @@ export function  moveCardDB(newStateCard,updatedBoard) {
   return async function moveBoardThunk (dispatch, getState) {
          dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
          //dispatch({ type: types.START_SAVE });
-         const route = `${host}`;
+         const route = `${host}/board/${newStateCard.board_id}/columns/card/${newStateCard.card.id}`;
          let response = await fetch(route,
            {
             method: 'PUT',
@@ -50,7 +50,10 @@ export function  moveCardDB(newStateCard,updatedBoard) {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newStateCard)
+            body: JSON.stringify({
+              source:newStateCard.source,
+              destination:newStateCard.destination
+            })
           });
           response = await response.json();
          /*if (response.status=="OK") {
@@ -64,7 +67,7 @@ export function  deleteCard(deletedCard,updatedBoard) {
   return async function deleteBoardThunk (dispatch, getState) {
          dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
          //dispatch({ type: types.START_SAVE });
-         const route = `${host}`;
+         const route = `${host}/board/${deletedCard.board_id}/column/${deletedCard.fromColumn_id}/card/${deletedCard.card.id}`;
          let response = await fetch(route,
            {
             method: 'DELETE',
@@ -72,7 +75,7 @@ export function  deleteCard(deletedCard,updatedBoard) {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(deletedCard)
+            //body: JSON.stringify(deletedCard)
           });
           response = await response.json();
           console.log(JSON.stringify(response));
@@ -93,18 +96,18 @@ export function  editCardDB(editingCard,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
           dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
           // dispatch({ type: types.START_SAVE });
-          /*const route = `${host}`;
+          const route = `${host}/board/${editingCard.board_id}/column/${editingCard.fromColumnId}/card/${editingCard.card.id}`;
           let response = await fetch(route,
             {
-            method: 'DELETE',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(editingCard)
-          });
-          response = await response.json();
-          console.log(JSON.stringify(response));*/
+             method: 'PUT',
+             headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify(editingCard.card)
+           });
+           response = await response.json();
+           console.log(JSON.stringify(response));
          /*if (response.status=="OK") {
             dispatch({ type: types.FINISH_SAVE });
           } else {
@@ -115,21 +118,73 @@ export function  editCardDB(editingCard,updatedBoard) {
 }
 export function saveColumn(newColumn,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
-   dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         const route = `${host}/board/${newColumn.board_id}/column`;
+         let response = await fetch(route,
+           {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newColumn.newColumn)
+          });
+          response = await response.json();
+          console.log(JSON.stringify(response));
+
  }
 }
-export function deleteColumn(newColumn,updatedBoard) {
+export function deleteColumn(deletedColumn,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
-   dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         const route = `${host}/board/${deletedColumn.board_id}/column/${deletedColumn.deletedColumn.id}`;
+         let response = await fetch(route,
+           {
+            method: 'DELETE',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            //body: JSON.stringify(deletedColumn)
+          });
+          response = await response.json();
+          console.log(JSON.stringify(response));
  }
 }
-export function renameColumnDB(newColumn,updatedBoard) {
+export function renameColumnDB(editingColumn,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
-   dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         const route = `${host}/board/${editingColumn.board_id}/column/${editingColumn.renamedColumn.id}`;
+         let response = await fetch(route,
+           {
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(editingColumn.renamedColumn)
+          });
+          response = await response.json();
+          console.log(JSON.stringify(response));
  }
 }
 export function moveColumnDB(movedColumnInfo,updatedBoard) {
   return async function editBoardThunk (dispatch, getState) {
-   dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         dispatch({ type: types.FINISH_SAVE, updatedBoard:updatedBoard});
+         const route = `${host}/board/${movedColumnInfo.board_id}/columns/${movedColumnInfo.columnId}`;
+         let response = await fetch(route,
+           {
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              source: movedColumnInfo.source,
+              destination: movedColumnInfo.destination
+            })
+          });
+          response = await response.json();
+          console.log(JSON.stringify(response));
  }
 }

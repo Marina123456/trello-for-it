@@ -5,7 +5,7 @@ export default function reduce(state = {}, action = {}) {
       case types.FETCH:
           if (action.projects) {
               return Object.assign({}, state, {
-                        project_list: action.projects.projects
+                        project_list: action.projects.boards
                     });
          }
         return state;
